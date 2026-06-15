@@ -1,5 +1,5 @@
 // Імпорт компонента Link з Next.js - Для створення посилань
-import Link from 'next/link';
+// import Link from 'next/link';
 
 // Імпорт стилів з модуля стилів
 import css from './Footer.module.css';

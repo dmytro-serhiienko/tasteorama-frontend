@@ -10,9 +10,11 @@
 // "updatedAt": "2026-06-13T10:15:00.000Z"
 // ==========================================================================================
 export interface User {
+  _id: string;
   name: string;
   email: string;
   favorites: {
+    _id: string;
     recipeId: string;
   }[];
   avatar: string;
