@@ -79,18 +79,36 @@ export async function getIngredients(): Promise<GetIngredientsHttpResponse> {
 // Імпорт інтерфейсів
 import type { Recipe } from '@/types/recipe';
 
-// Типізація відповіді Get-запиту від Axios - згідно структури бекенда :
+// Типізація відповіді Get-запиту від Axios - колекція рецептів - згідно структури бекенда :
 interface GetRecipesHttpResponse {
-  data: Recipe[]; // Відповідь містить масив категорій у властивості data
+  data: Recipe[]; // Відповідь містить масив рецептів у властивості data
+}
+
+// Типізація відповіді Get-запиту від Axios - один рецепт за Id - згідно структури бекенда :
+interface GetRecipeHttpResponse {
+  data: Recipe; // Відповідь містить один рецепт у властивості data
 }
 // ==========================================================================================
-// getIngredients : виконує запит для отримання колекції інгредієнтів із сервера.
+// getRecipes : виконує запит для отримання колекції рецептів.
 // ==========================================================================================
 // Структура запиту :
 
 export async function getRecipes(): Promise<GetRecipesHttpResponse> {
   // Виконуємо HTTP-запит
   const response = await axios.get<GetRecipesHttpResponse>('/api/recipes');
+
+  // Повертаємо значення data відповіді
+  return response.data;
+}
+
+// ==========================================================================================
+// getRecipeById : виконує запит для отримання рецепта за його ID.
+// ==========================================================================================
+// Структура запиту :
+
+export async function getRecipeById(recipeId: string): Promise<GetRecipeHttpResponse> {
+  // Виконуємо HTTP-запит
+  const response = await axios.get<GetRecipeHttpResponse>(`/api/recipes/${recipeId}`);
 
   // Повертаємо значення data відповіді
   return response.data;

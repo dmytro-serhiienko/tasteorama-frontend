@@ -2,12 +2,14 @@
 import { getCategories } from '@/lib/api/api-myTest';
 import { getIngredients } from '@/lib/api/api-myTest';
 import { getRecipes } from '@/lib/api/api-myTest';
+import { getRecipeById } from '@/lib/api/api-myTest';
 
 const MyTest = async () => {
   // 3. Виконуємо запит
   const categories = await getCategories();
   const ingredients = await getIngredients();
   const recipes = await getRecipes();
+  const recipeById = await getRecipeById('6462a8f74c3d0ddd28897fbc');
 
   return (
     <div>
@@ -30,6 +32,9 @@ const MyTest = async () => {
           <li key={recipe._id}>{recipe.title}</li>
         ))}
       </ul>
+      <p>Recipe by Id:</p>
+      <p>{recipeById.data.title}</p>
+      <p>{recipeById.data.description}</p>
     </div>
   );
 };
