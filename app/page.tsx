@@ -16,12 +16,14 @@ import RecipeCard from '@/components/RecipeCard/RecipeCard';
 import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
 
 import MyTest from '@/components/MyTest/MyTest';
+import HeaderMy from '@/components/HeaderMy/HeaderMy';
 
 function MainPage() {
   return (
     <main className={css.container}>
       <h1 className={css.title}>Tasteorama</h1>
       {/* <SearchBox /> */}
+      <HeaderMy />
       <Filters />
       <RecipesList />
       <RecipeCard />
