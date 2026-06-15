@@ -15,6 +15,8 @@ import RecipesList from '@/components/RecipesList/RecipesList';
 import RecipeCard from '@/components/RecipeCard/RecipeCard';
 import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
 
+import MyTest from '@/components/MyTest/MyTest';
+
 function MainPage() {
   return (
     <main className={css.container}>
@@ -24,6 +26,7 @@ function MainPage() {
       <RecipesList />
       <RecipeCard />
       <LoadMoreBtn />
+      <MyTest />
     </main>
   );
 }
