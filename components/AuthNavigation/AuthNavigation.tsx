@@ -20,7 +20,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 
 // Імпорт функції виходу з клієнтського API
-// import { logout } from '@/lib/api/clientApi';
+import { logout } from '@/lib/api/api';
 
 const AuthNavigation = () => {
   const router = useRouter();
@@ -31,11 +31,11 @@ const AuthNavigation = () => {
 
   const handleLogout = async () => {
     // Викликаємо logout - функції виходу з клієнтського API
-    // await logout();
+    await logout();
     // Чистимо глобальний стан
     clearIsAuthenticated();
     // Виконуємо навігацію на сторінку авторизації
-    router.push('/sign-in');
+    router.push('/auth/register');
   };
 
   // Якщо є сесія - відображаємо Logout та інформацію про користувача
@@ -43,12 +43,7 @@ const AuthNavigation = () => {
   return isAuthenticated ? (
     <>
       <li className={css.navigationItem}>
-        <Link href="/notes/filter/all" className={css.navigationLink}>
-          Notes
-        </Link>
-      </li>
-      <li className={css.navigationItem}>
-        <Link href="/profile" prefetch={false} className={css.navigationLink}>
+        <Link href="/profile/own" prefetch={false} className={css.navigationLink}>
           Profile
         </Link>
       </li>

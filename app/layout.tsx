@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 
 // Додаємо провайдер авторизації у layout.tsx,
 // щоб дані про авторизацію були доступні в будь-якому компоненті застосунку:
-// import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 
 export default function RootLayout({
   children,
@@ -61,14 +61,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.variable}>
         <TanStackProvider>
-          {/* <AuthProvider> */}
-          <Header />
-          {/* <main> */}
-          {children}
-          {modal}
-          {/* </main> */}
-          <Footer />
-          {/* </AuthProvider> */}
+          {/* Провайдер авторизації */}
+          <AuthProvider>
+            <Header />
+            {/* <main> */}
+            {children}
+            {modal}
+            {/* </main> */}
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>
