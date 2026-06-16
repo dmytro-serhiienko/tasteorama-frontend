@@ -1,6 +1,71 @@
 .hero {
-  font-family: var(--font-montserrat);
-  font-weight: 700;
-  font-size: 24px;
-  width: 100%;
+  min-height: 513px;
+
+  padding: 74px 32px 99px;
+
+  background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+    image-set(
+      url('/images/BannerHero/BannerHero-mobile.webp') 1x,
+      url('/images/BannerHero/BannerHero-mobile@2x.webp') 2x
+    );
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.content {
+  max-width: 329px;
+}
+
+.title {
+  margin-bottom: 24px;
+
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.1;
+
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .hero {
+    min-height: 443px;
+    padding: 128px 32px;
+
+    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+      image-set(
+        url('/images/BannerHero/BannerHero-tablet.webp') 1x,
+        url('/images/BannerHero/BannerHero-tablet@2x.webp') 2x
+      );
+  }
+
+  .content {
+    max-width: 661px;
+  }
+
+  .title {
+    width: 493px;
+    font-size: 48px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    /* 
+    width: 661px; */
+  }
+
+  .input {
+    width: 459px;
+    flex-shrink: 0;
+  }
+
+  .button {
+    width: 190px;
+    flex-shrink: 0;
+  }
 }
