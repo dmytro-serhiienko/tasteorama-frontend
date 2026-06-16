@@ -1,5 +1,3 @@
-@import '../../app/globals.css';
-
 .form {
   display: flex;
   flex-direction: column;
@@ -23,7 +21,7 @@
 }
 
 .photoTitle {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
 
   font-weight: 600;
   font-size: 24px;
@@ -33,7 +31,7 @@
 }
 
 .generalTitle {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 24px;
   color: #000;
@@ -43,7 +41,7 @@
 }
 
 .ingredientsTitle {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 24px;
   color: #000;
@@ -51,7 +49,7 @@
 }
 
 .instructionsTitle {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
 
   font-weight: 600;
   font-size: 24px;
@@ -62,7 +60,7 @@
 
 .label {
   display: block;
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 18px;
   color: #000;
@@ -73,23 +71,24 @@
   width: 100%;
   margin-bottom: 16px;
   padding: 10px 14px;
-  border: 1px solid var(--light-gray);
+  border: 1px solid #d9d9d9;
   border-radius: 8px;
   font-size: 14px;
   line-height: 1.3;
-  background: var(--white);
+  color: #333333;
+  background: #fff;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--light-brown);
+  border-color: #a27447;
 }
 
 .input::placeholder {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 18px;
-  color: var(--gray);
+  color: #595d62;
 }
 
 .selectInput {
@@ -104,10 +103,10 @@
 }
 
 .selectPlaceholder {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 18px;
-  color: var(--gray);
+  color: #595d62;
 }
 
 .textarea {
@@ -116,10 +115,10 @@
 }
 
 .instructionsTextarea::placeholder {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 18px;
-  color: var(--gray-3);
+  color: #9f9f9f;
 }
 
 .twoColumns {
@@ -132,8 +131,8 @@
   width: 100%;
   aspect-ratio: 361 / 383;
   border-radius: 14px;
-  background: var(--light-gray);
-  border: 1px solid var(--light-gray-2);
+  background: #a7a7a7;
+  border: 1px solid #939393;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -174,8 +173,8 @@
 .addIngredientButton {
   border: none;
   border-radius: 8px;
-  background: var(--light-brown);
-  color: var(--white);
+  background: #9b6c43;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 600;
   padding: 10px 16px;
@@ -190,14 +189,14 @@
 
 .addIngredientButton:hover,
 .addIngredientButton:focus-visible {
-  background: var(--dark-brown);
+  background: #6d554b;
 }
 
 .addIngredientButton:active {
-  background: var(--light-brown);
+  background: #9b6c43;
   box-shadow:
-    0 0 0 6px var(--white-55),
-    0 0 0 2px var(--white);
+    0 0 0 6px rgba(78, 70, 180, 0.12),
+    0 0 0 2px #fff;
 }
 
 .ingredientsList {
@@ -214,16 +213,16 @@
   grid-template-columns: 1fr 1fr 24px;
   align-items: center;
   width: 100%;
-  border-bottom: 1px solid var(--light-gray-2);
+  border-bottom: 1px solid #c5c5c5;
   padding: 16px 0;
   min-height: 52px;
 }
 
 .ingredientsHeadText {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 16px;
-  color: var(--black);
+  color: #000;
 }
 
 .ingredientRow {
@@ -231,16 +230,16 @@
   grid-template-columns: 1fr 1fr 24px;
   column-gap: 8px;
   align-items: center;
-  border-bottom: 1px solid var(--light-gray-2);
+  border-bottom: 1px solid #c5c5c5;
   padding: 18px 0;
 }
 
 .ingredientText {
-  font-family: var(--font-family);
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.55;
-  color: var(--black);
+  color: #000;
 }
 
 .removeButton {
@@ -261,11 +260,11 @@
   padding: 12px 16px;
   width: 100%;
   min-height: 44px;
-  background: var(--light-brown);
-  font-family: var(--font-family);
+  background: #9b6c43;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 16px;
-  color: var(--white);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -278,21 +277,21 @@
 
 .primaryButton:hover,
 .primaryButton:focus-visible {
-  background: var(--dark-brown);
+  background: #6d554b;
 }
 
 .primaryButton:active {
-  background: var(--light-brown);
+  background: #9b6c43;
   box-shadow:
-    0 0 0 6px var(--white-55),
-    0 0 0 2px var(--white);
+    0 0 0 6px rgba(78, 70, 180, 0.12),
+    0 0 0 2px #fff;
 }
 
 .primaryButton:disabled {
-  background: var(--light-brown);
+  background: #9b6c43;
   box-shadow:
-    0 0 0 6px var(--white-55),
-    0 0 0 2px var(--white);
+    0 0 0 6px rgba(78, 70, 180, 0.12),
+    0 0 0 2px #fff;
   opacity: 0.3;
   cursor: not-allowed;
 }
@@ -303,7 +302,7 @@
   margin-top: -12px;
   margin-bottom: 16px;
   text-align: center;
-  color: var(--error);
+  color: #be1f1f;
   font-size: 14px;
 }
 
@@ -390,7 +389,7 @@
 
   .ingredientsControls .input {
     margin-bottom: 0;
-    border: 1px solid var(--light-gray-2);
+    border: 1px solid #d9d9d9;
     border-radius: 8px;
     padding: 12px;
     height: 48px;
@@ -408,7 +407,7 @@
     font-weight: 600;
     font-size: 16px;
     text-align: center;
-    color: var(--white);
+    color: #fff;
 
     grid-column: 2;
     margin-top: 16px;
@@ -419,7 +418,7 @@
   }
 
   .ingredientsHead {
-    border-bottom: 1px solid var(--light-gray-2);
+    border-bottom: 1px solid #c5c5c5;
     padding: 8px 0;
     width: 431px;
     height: 36px;
@@ -431,7 +430,7 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     font-size: 16px;
-    color: var(--black);
+    color: #000;
   }
 
   .ingredientsList {
