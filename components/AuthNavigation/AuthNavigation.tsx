@@ -13,6 +13,8 @@ interface AuthNavigationProps {
 const AuthNavigation = ({ onLinkClick }: AuthNavigationProps) => {
   const router = useRouter();
   const { isAuthenticated, user } = useAuthStore();
+
+  // Отримуємо метод очищення глобального стану
   const clearIsAuthenticated = useAuthStore(state => state.clearIsAuthenticated);
 
   const handleLogout = async () => {
