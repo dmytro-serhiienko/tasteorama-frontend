@@ -27,19 +27,19 @@ const roboto = Roboto({
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
-  title: 'NoteHub',
-  description: 'NoteHub - Your Personal Note-Taking App - Powered by Next.js and React Query',
+  metadataBase: new URL('https://tasteorama-frontend.vercel.app/'),
+  title: 'Tasteorama',
+  description: 'Tasteorama - Your Ultimate Recipe Companion',
   openGraph: {
-    title: `NoteHub`,
-    description: 'NoteHub - Your Personal Note',
-    siteName: 'NoteHub',
+    title: `Tasteorama`,
+    description: 'Tasteorama - Your Ultimate Recipe Companion',
+    siteName: 'Tasteorama - Your Ultimate Recipe Companion',
     images: [
       {
-        url: 'notehub-og-meta.jpg',
+        url: 'file.svg',
         width: 1200,
         height: 630,
-        alt: `NoteHub picture`,
+        alt: `Tasteorama picture`,
       },
     ],
     type: 'website',
@@ -48,29 +48,54 @@ export const metadata: Metadata = {
 
 // Додаємо провайдер авторизації у layout.tsx,
 // щоб дані про авторизацію були доступні в будь-якому компоненті застосунку:
-// import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 
 export default function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={roboto.variable}>
         <TanStackProvider>
-          {/* <AuthProvider> */}
-          <Header />
-          {/* <main> */}
-          {children}
-          {modal}
-          {/* </main> */}
-          <Footer />
-          {/* </AuthProvider> */}
+          {/* Провайдер авторизації */}
+          <AuthProvider>
+            <Header />
+            {/* <main> */}
+            {children}
+            {/* </main> */}
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>
   );
 }
+
+// c modal
+// export default function RootLayout({
+//   children,
+//   modal,
+// }: Readonly<{
+//   children: React.ReactNode;
+//   modal: React.ReactNode;
+// }>) {
+//   return (
+//     <html lang="en">
+//       <body className={roboto.variable}>
+//         <TanStackProvider>
+//           {/* Провайдер авторизації */}
+//           <AuthProvider>
+//             <Header />
+//             {/* <main> */}
+//             {children}
+//             {modal}
+//             {/* </main> */}
+//             <Footer />
+//           </AuthProvider>
+//         </TanStackProvider>
+//       </body>
+//     </html>
+//   );
+// }
