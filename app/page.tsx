@@ -16,7 +16,7 @@ import RecipesList from '@/components/RecipesList/RecipesList';
 // import RecipeCard from '@/components/RecipeCard/RecipeCard';
 // import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
 
-import HeaderMy from '@/components/HeaderMy/HeaderMy';
+// import HeaderMy from '@/components/HeaderMy/HeaderMy';
 // import MyTest from '@/components/MyTest/MyTest';
 
 function MainPage() {
@@ -27,7 +27,7 @@ function MainPage() {
       <RecipesList />
       {/* <RecipeCard /> */}
       {/* <LoadMoreBtn /> */}
-      <HeaderMy />
+      {/* <HeaderMy /> */}
       {/* <MyTest /> */}
     </main>
   );
