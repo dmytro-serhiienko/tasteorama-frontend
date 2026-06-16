@@ -11,8 +11,15 @@
 import axios from 'axios';
 
 // Базова URL-адреса для всіх запитів, що надсилаються через цей інстанс
+// Видаляємо стару логіку baseURL
 // axios.defaults.baseURL = 'https://tasteorama-backend-jumn.onrender.com';
-axios.defaults.baseURL = 'http://localhost:3000/api';
+// axios.defaults.baseURL = 'http://localhost:3000/api';
+
+// Створюємо інстанс axios
+const nextServer = axios.create({
+  baseURL: 'http://localhost:3000/api',
+  withCredentials: true, // дозволяє axios працювати з cookie
+});
 
 // *********************************************************************************
 // Робота з категоріями
@@ -31,7 +38,7 @@ interface GetCategoriesHttpResponse {
 
 export async function getCategories(): Promise<GetCategoriesHttpResponse> {
   // Виконуємо HTTP-запит
-  const response = await axios.get<GetCategoriesHttpResponse>('/categories');
+  const response = await nextServer.get<GetCategoriesHttpResponse>('/categories');
   console.log('Fetch - GET :');
   console.log('response.data', response.data);
   // console.log('totalPages', response.data.totalPages);
@@ -57,7 +64,7 @@ interface GetIngredientsHttpResponse {
 
 export async function getIngredients(): Promise<GetIngredientsHttpResponse> {
   // Виконуємо HTTP-запит
-  const response = await axios.get<GetIngredientsHttpResponse>('/ingredients');
+  const response = await nextServer.get<GetIngredientsHttpResponse>('/ingredients');
   console.log('Fetch - GET :');
   console.log('response.data', response.data);
 
@@ -126,7 +133,7 @@ export async function getRecipes(
     },
   };
   // Виконуємо HTTP-запит
-  const response = await axios.get<GetRecipesHttpResponse>('/recipes', options);
+  const response = await nextServer.get<GetRecipesHttpResponse>('/recipes', options);
 
   // Повертаємо значення data відповіді
   return response.data;
@@ -146,8 +153,69 @@ export async function getRecipes(
 
 export async function getRecipeById(recipeId: string): Promise<GetRecipeHttpResponse> {
   // Виконуємо HTTP-запит
-  const response = await axios.get<GetRecipeHttpResponse>(`/recipes/${recipeId}`);
+  const response = await nextServer.get<GetRecipeHttpResponse>(`/recipes/${recipeId}`);
 
   // Повертаємо значення data відповіді
   return response.data;
 }
+
+// ==========================================================================================
+// register : реєстрація користувача
+// ==========================================================================================
+// Структура запиту :
+
+// Імпорт інтерфейсів
+import type { User } from '@/types/user';
+
+export type RegisterRequest = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export const register = async (data: RegisterRequest) => {
+  const res = await nextServer.post<User>('/auth/register', data);
+  return res.data;
+};
+
+// ==========================================================================================
+// login : Вхід користувача в систему (логін)
+// ==========================================================================================
+// Структура запиту :
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export const login = async (data: LoginRequest) => {
+  const res = await nextServer.post<User>('/auth/login', data);
+  return res.data;
+};
+
+// ==========================================================================================
+// checkSession : Перевірка сесії користувача (чи він авторизований)
+// ==========================================================================================
+type CheckSessionRequest = {
+  success: boolean;
+};
+
+export const checkSession = async () => {
+  const res = await nextServer.get<CheckSessionRequest>('/auth/session');
+  return res.data.success;
+};
+
+// ==========================================================================================
+// getMe : Отримання об’єкта користувача (профілю) для авторизованого користувача
+// ==========================================================================================
+export const getMe = async () => {
+  const { data } = await nextServer.get<User>('/auth/me');
+  return data;
+};
+
+// ==========================================================================================
+// logout : Вихід користувача з системи (логаут)
+// ==========================================================================================
+export const logout = async (): Promise<void> => {
+  await nextServer.post('/auth/logout');
+};
