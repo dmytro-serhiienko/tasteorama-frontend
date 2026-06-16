@@ -26,6 +26,7 @@ const AuthNavigation = () => {
   const router = useRouter();
   // Отримуємо поточну сесію та юзера
   const { isAuthenticated, user } = useAuthStore();
+  console.log('AuthNavigation - isAuthenticated:', isAuthenticated, 'user:', user);
   // Отримуємо метод очищення глобального стану
   const clearIsAuthenticated = useAuthStore(state => state.clearIsAuthenticated);
 
@@ -34,8 +35,8 @@ const AuthNavigation = () => {
     await logout();
     // Чистимо глобальний стан
     clearIsAuthenticated();
-    // Виконуємо навігацію на сторінку авторизації
-    router.push('/auth/register');
+    // Виконуємо навігацію на сторінку логіну після виходу
+    router.push('/auth/login');
   };
 
   // Якщо є сесія - відображаємо Logout та інформацію про користувача
@@ -65,7 +66,7 @@ const AuthNavigation = () => {
 
       <li className={css.navigationItem}>
         <Link href="/auth/register" prefetch={false} className={css.navigationLink}>
-          Sign up
+          Register
         </Link>
       </li>
     </>
