@@ -1,34 +1,19 @@
 'use client';
 
-// ==========================================================================================
-// Компонент RecipesList -  відображає адаптивну сітку карток рецептів.
-// Використовує useInfiniteQuery для пагінації (TanStack Query).
-// Читає фільтри з URL параметрів які записує компонент Filters (Денис).
-// ==========================================================================================
-
 import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
-// Імпорт API функції
 import { getRecipes } from '@/lib/api/clientApi';
 
-// Імпорт компонентів
 import RecipeCard from '@/components/RecipeCard/RecipeCard';
 import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
 
-// Імпорт стилів
 import css from './RecipesList.module.css';
 import Loading from '@/app/loading';
 import AppError from '@/app/error';
-import { notFound } from 'next/navigation';
+// import NotFoundRecipePage from '@/app/recipes/[recipeId]/not-found';
 
-// ==========================================================================================
-// Компонент
-// ==========================================================================================
 const RecipesList = () => {
-  // ------------------------------------------------------------------------------------------
-  // Читаємо фільтри з URL які записує компонент Filters (Денис)
-  // ------------------------------------------------------------------------------------------
   const searchParams = useSearchParams();
   const category = searchParams.get('category') ?? undefined;
   const ingredient = searchParams.get('ingredient') ?? undefined;
@@ -44,7 +29,6 @@ const RecipesList = () => {
     error,
     refetch,
   } = useInfiniteQuery({
-    // При зміні фільтрів - робимо новий запит з початку
     queryKey: ['recipes', { category, ingredient, search }],
     queryFn: ({ pageParam = 1 }) => getRecipes(pageParam, undefined, search, category, ingredient),
     initialPageParam: 1,
@@ -57,16 +41,10 @@ const RecipesList = () => {
     },
   });
 
-  // ------------------------------------------------------------------------------------------
-  // Стан завантаження початкових даних
-  // ------------------------------------------------------------------------------------------
   if (isLoading) {
     return <Loading />;
   }
 
-  // ------------------------------------------------------------------------------------------
-  // Стан помилки
-  // ------------------------------------------------------------------------------------------
   if (isError) {
     return (
       <AppError
@@ -76,21 +54,12 @@ const RecipesList = () => {
     );
   }
 
-  // ------------------------------------------------------------------------------------------
-  // Зводимо всі сторінки в один плаский масив рецептів
-  // ------------------------------------------------------------------------------------------
   const recipes = data?.pages.flatMap(page => page.data) ?? [];
 
-  // ------------------------------------------------------------------------------------------
-  // Стан пустого результату
-  // ------------------------------------------------------------------------------------------
-  if (recipes.length === 0) {
-    notFound();
-  }
+  // if (recipes.length === 0) {
+  //   NotFoundRecipePage();
+  // }
 
-  // ------------------------------------------------------------------------------------------
-  // Основний рендер
-  // ------------------------------------------------------------------------------------------
   return (
     <div className={css.wrapper}>
       <ul className={css.list}>
