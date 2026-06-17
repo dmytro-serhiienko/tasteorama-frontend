@@ -3,6 +3,7 @@
 // ==========================================================================================
 
 import { nextServer } from './api';
+import { isAxiosError } from 'axios';
 
 // *********************************************************************************
 // Робота з категоріями
@@ -177,6 +178,21 @@ export const login = async (data: LoginRequest) => {
 };
 
 // ==========================================================================================
+// getMe : Отримання об’єкта користувача (профілю) для авторизованого користувача
+// ==========================================================================================
+export const getMe = async () => {
+  const res = await nextServer.get<User>('/auth/me');
+  return res.data;
+};
+
+// ==========================================================================================
+// logout : Вихід користувача з системи (логаут)
+// ==========================================================================================
+export const logout = async (): Promise<void> => {
+  await nextServer.post('/auth/logout');
+};
+
+// ==========================================================================================
 // checkSession : Перевірка сесії користувача (чи він авторизований)
 // ==========================================================================================
 type CheckSessionRequest = {
@@ -189,17 +205,43 @@ export const checkSession = async () => {
 };
 
 // ==========================================================================================
-// getMe : Отримання об’єкта користувача (профілю) для авторизованого користувача
+// getMyRecipes : власні рецепти користувача (приватний маршрут /api/recipes/my)
 // ==========================================================================================
-export const getMe = async () => {
-  const res = await nextServer.get<User>('/auth/me');
-  return res.data;
-};
+export async function getMyRecipes(
+  page: number = 1,
+  perPage: number = 12
+): Promise<GetRecipesHttpResponse> {
+  try {
+    const response = await nextServer.get<GetRecipesHttpResponse>('/recipes/my', {
+      params: { page, perPage },
+    });
+    return response.data;
+  } catch (error) {
+    // Бекенд повертає 404, якщо у користувача ще немає рецептів.
+    // Трактуємо це як порожній список, а не як помилку.
+    if (isAxiosError(error) && error.response?.status === 404) {
+      return { page, perPage, totalItems: 0, totalPages: 0, data: [] };
+    }
+    throw error;
+  }
+}
 
 // ==========================================================================================
-// logout : Вихід користувача з системи (логаут)
+// getFavoriteRecipes : улюблені рецепти користувача (приватний маршрут /api/recipes/favorites)
 // ==========================================================================================
-export const logout = async (): Promise<void> => {
-  console.log('clientApi.ts - Logging out...');
-  await nextServer.post('/auth/logout');
-};
+export async function getFavoriteRecipes(
+  page: number = 1,
+  perPage: number = 12
+): Promise<GetRecipesHttpResponse> {
+  try {
+    const response = await nextServer.get<GetRecipesHttpResponse>('/recipes/favorites', {
+      params: { page, perPage },
+    });
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.status === 404) {
+      return { page, perPage, totalItems: 0, totalPages: 0, data: [] };
+    }
+    throw error;
+  }
+}
