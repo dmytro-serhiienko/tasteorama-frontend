@@ -20,7 +20,7 @@ const AuthNavigation = ({ onLinkClick }: AuthNavigationProps) => {
   const handleLogout = async () => {
     await logout();
     clearIsAuthenticated();
-    router.push('/sign-in');
+    router.push('/auth/login');
   };
 
   return isAuthenticated ? (
