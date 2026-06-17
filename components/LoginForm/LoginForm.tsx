@@ -12,19 +12,15 @@ import { ApiError } from '@/app/api/api';
 import Loading from '@/app/loading';
 import css from './LoginForm.module.css';
 
-const registerSchema = Yup.object({
+const loginSchema = Yup.object({
   email: Yup.string()
     .email('Invalid email format')
     .max(128, 'Email must be at most 128 characters')
     .required('Email is required'),
-  name: Yup.string().max(16, 'Name must be at most 16 characters').required('Name is required'),
   password: Yup.string()
     .min(8, 'Password must be at least 8 characters')
     .max(128, 'Password must be at most 128 characters')
     .required('Password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Passwords must match')
-    .required('Please confirm your password'),
 });
 
 const PasswordInput = ({
@@ -80,8 +76,8 @@ const LoginForm = () => {
   };
 
   const formik = useFormik({
-    initialValues: { email: '', name: '', password: '', confirmPassword: '' },
-    validationSchema: registerSchema,
+    initialValues: { email: '', password: '' },
+    validationSchema: loginSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setIsLoading(true);
       try {
