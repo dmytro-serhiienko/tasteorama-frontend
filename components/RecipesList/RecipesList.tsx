@@ -7,7 +7,7 @@
 // ==========================================================================================
 
 import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // Імпорт API функції
 import { getRecipes } from '@/lib/api/clientApi';
@@ -15,21 +15,29 @@ import { getRecipes } from '@/lib/api/clientApi';
 // Імпорт компонентів
 import RecipeCard from '@/components/RecipeCard/RecipeCard';
 import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
+import { NoSearchResults } from '@/components/Filters/NoSearchResults';
 
 // Імпорт стилів
 import css from './RecipesList.module.css';
 import Loading from '@/app/loading';
 import AppError from '@/app/error';
-import { notFound } from 'next/navigation';
 
+// Імпорт функції helpers для рендера картки NoSearchResults
+import { resetSearchAndFilters } from '@/components/Filters/helpers'
 // ==========================================================================================
 // Компонент
 // ==========================================================================================
 const RecipesList = () => {
+  const router = useRouter()
   // ------------------------------------------------------------------------------------------
   // Читаємо фільтри з URL які записує компонент Filters (Денис)
   // ------------------------------------------------------------------------------------------
   const searchParams = useSearchParams();
+  const handleResetSearchAndFilters = () => {
+  resetSearchAndFilters(searchParams, router);
+};
+
+  
   const category = searchParams.get('category') ?? undefined;
   const ingredient = searchParams.get('ingredient') ?? undefined;
   const search = searchParams.get('search') ?? undefined;
@@ -48,7 +56,7 @@ const RecipesList = () => {
     queryKey: ['recipes', { category, ingredient, search }],
     queryFn: ({ pageParam = 1 }) => getRecipes(pageParam, undefined, search, category, ingredient),
     initialPageParam: 1,
-    placeholderData: keepPreviousData,
+    // placeholderData: keepPreviousData,
     getNextPageParam: lastPage => {
       if (lastPage.page < lastPage.totalPages) {
         return lastPage.page + 1;
@@ -67,14 +75,26 @@ const RecipesList = () => {
   // ------------------------------------------------------------------------------------------
   // Стан помилки
   // ------------------------------------------------------------------------------------------
-  if (isError) {
-    return (
-      <AppError
-        error={error instanceof Error ? error : new Error('Something went wrong')}
-        reset={() => refetch()}
-      />
-    );
-  }
+if (
+  isError &&
+  'response' in error &&
+  (error as { response?: { status: number } }).response?.status === 404
+) {
+  return (
+    <NoSearchResults
+      onReset={handleResetSearchAndFilters}
+    />
+  );
+}
+
+if (isError) {
+  return (
+    <AppError
+      error={error instanceof Error ? error : new Error('Something went wrong')}
+      reset={() => refetch()}
+    />
+  );
+}
 
   // ------------------------------------------------------------------------------------------
   // Зводимо всі сторінки в один плаский масив рецептів
@@ -84,9 +104,11 @@ const RecipesList = () => {
   // ------------------------------------------------------------------------------------------
   // Стан пустого результату
   // ------------------------------------------------------------------------------------------
-  if (recipes.length === 0) {
-    notFound();
-  }
+
+  // ------------------------------------------------------------------------------------------
+
+
+
 
   // ------------------------------------------------------------------------------------------
   // Основний рендер

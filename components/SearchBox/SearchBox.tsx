@@ -76,7 +76,6 @@ export default function SearchBox() {
   const searchParams = useSearchParams();
 
   const [searchText, setSearchText] = useState(searchParams.get('search') ?? '');
-
   const handleSubmit = () => {
     const text = searchText.trim();
 
@@ -88,7 +87,11 @@ export default function SearchBox() {
       params.delete('search');
     }
 
-    router.push(`?${params.toString()}`);
+    if (text === (searchParams.get('search') ?? '')) {
+      return;
+    }
+
+    router.replace(`?${params.toString()}`);
   };
 
   return (

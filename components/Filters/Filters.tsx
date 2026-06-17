@@ -9,6 +9,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { FC, useCallback, useState } from 'react';
 import Loading from '@/app/loading';
+import { NoSearchResults } from './NoSearchResults';
+import { resetSearchAndFilters } from './helpers';
 
 interface FiltersProps {
   totalItems: number;
@@ -38,6 +40,7 @@ const Filters: FC<FiltersProps> = ({ totalItems }) => {
 
   const categoryParams = searchParams.get('category');
   const ingredientParams = searchParams.get('ingredient');
+  const search = searchParams.get('search');
 
   const updateURL = useCallback(
     (updates: Record<string, string | null>) => {
@@ -68,24 +71,17 @@ const Filters: FC<FiltersProps> = ({ totalItems }) => {
   );
 
   const handleIngredientChange = useCallback(
-  (value: string) => {
-    updateURL({
-      ingredient: value || null,
-    });
-  },
-  [updateURL]
-);
+    (value: string) => {
+      updateURL({
+        ingredient: value || null,
+      });
+    },
+    [updateURL]
+  );
 
-  const handleResetFilters = useCallback(() => {
-    const params = new URLSearchParams(searchParams);
-
-    params.delete('category');
-    params.delete('ingredient');
-
-    const queryString = params.toString();
-
-    router.replace(queryString ? `?${queryString}` : '/');
-  }, [searchParams, router]);
+ const handleResetSearchAndFilters = () => {
+  resetSearchAndFilters(new URLSearchParams(searchParams), router);
+};
 
   if (isCategoriesLoading || isIngredientsLoading) {
     return <Loading />;
@@ -93,6 +89,7 @@ const Filters: FC<FiltersProps> = ({ totalItems }) => {
 
   return (
     <section className={css.wrapper}>
+      {totalItems === 0 && <h2>Search result for {search}</h2>}
       <div className={css.mobileHeader}>
         <p className={css.counter}>{totalItems} recipes</p>
 
@@ -122,7 +119,7 @@ const Filters: FC<FiltersProps> = ({ totalItems }) => {
               ingredients={ingredients}
               handleCategoryChange={handleCategoryChange}
               handleIngredientChange={handleIngredientChange}
-              handleResetFilters={handleResetFilters}
+              handleResetSearchAndFilters={handleResetSearchAndFilters}
             />
           </div>
         )}
@@ -131,19 +128,18 @@ const Filters: FC<FiltersProps> = ({ totalItems }) => {
       <div className={css.desktopHeader}>
         <p className={css.counter}>{totalItems} recipes</p>
 
-          <FiltersControls
-            categoryParams={categoryParams}
-            ingredientParams={ingredientParams}
-            categories={categories}
-            ingredients={ingredients}
-            handleCategoryChange={handleCategoryChange}
-            handleIngredientChange={handleIngredientChange}
-            handleResetFilters={handleResetFilters}
-          />
+        <FiltersControls
+          categoryParams={categoryParams}
+          ingredientParams={ingredientParams}
+          categories={categories}
+          ingredients={ingredients}
+          handleCategoryChange={handleCategoryChange}
+          handleIngredientChange={handleIngredientChange}
+          handleResetSearchAndFilters={handleResetSearchAndFilters}
+        />
       </div>
     </section>
   );
-
 };
 
 export default Filters;
