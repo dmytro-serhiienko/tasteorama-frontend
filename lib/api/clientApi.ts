@@ -3,6 +3,7 @@
 // ==========================================================================================
 
 import { nextServer } from './api';
+import { isAxiosError } from 'axios';
 
 // *********************************************************************************
 // Робота з категоріями
@@ -202,3 +203,45 @@ export const checkSession = async () => {
   const res = await nextServer.get<CheckSessionRequest>('/auth/session');
   return res.data.success;
 };
+
+// ==========================================================================================
+// getMyRecipes : власні рецепти користувача (приватний маршрут /api/recipes/my)
+// ==========================================================================================
+export async function getMyRecipes(
+  page: number = 1,
+  perPage: number = 12
+): Promise<GetRecipesHttpResponse> {
+  try {
+    const response = await nextServer.get<GetRecipesHttpResponse>('/recipes/my', {
+      params: { page, perPage },
+    });
+    return response.data;
+  } catch (error) {
+    // Бекенд повертає 404, якщо у користувача ще немає рецептів.
+    // Трактуємо це як порожній список, а не як помилку.
+    if (isAxiosError(error) && error.response?.status === 404) {
+      return { page, perPage, totalItems: 0, totalPages: 0, data: [] };
+    }
+    throw error;
+  }
+}
+
+// ==========================================================================================
+// getFavoriteRecipes : улюблені рецепти користувача (приватний маршрут /api/recipes/favorites)
+// ==========================================================================================
+export async function getFavoriteRecipes(
+  page: number = 1,
+  perPage: number = 12
+): Promise<GetRecipesHttpResponse> {
+  try {
+    const response = await nextServer.get<GetRecipesHttpResponse>('/recipes/favorites', {
+      params: { page, perPage },
+    });
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.status === 404) {
+      return { page, perPage, totalItems: 0, totalPages: 0, data: [] };
+    }
+    throw error;
+  }
+}
