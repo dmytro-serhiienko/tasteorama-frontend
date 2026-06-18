@@ -2,7 +2,22 @@ import type { Category } from '@/types/category';
 import type { Ingredient } from '@/types/ingredient';
 import type { AddRecipeFormValues, CollectionResponse, CreateRecipeResponse } from './types';
 
-// GET-запит до колекції та повертає типізовані дані або помилку.
+// парсить тіло відповіді  JSON
+async function safeParseJson<T>(res: Response): Promise<T | null> {
+  const text = await res.text();
+
+  if (!text) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    return null;
+  }
+}
+
+// запит
 async function fetchCollection<T>(
   url: string,
   errorMessage: string
@@ -13,15 +28,21 @@ async function fetchCollection<T>(
     throw new Error(errorMessage);
   }
 
-  return (await res.json()) as CollectionResponse<T>;
+  const data = await safeParseJson<CollectionResponse<T>>(res);
+
+  if (!data) {
+    throw new Error(errorMessage);
+  }
+
+  return data;
 }
 
-// Завантажує список категорій для селекту
+//  список категорій для селекту
 export async function getCategories(): Promise<CollectionResponse<Category>> {
   return fetchCollection<Category>('/api/categories', 'Не вдалося завантажити категорії');
 }
 
-// Завантажує список  інгредієнтів
+//  список інгредієнтів
 export async function getIngredients(): Promise<CollectionResponse<Ingredient>> {
   return fetchCollection<Ingredient>('/api/ingredients', 'Не вдалося завантажити інгредієнти');
 }
@@ -45,7 +66,8 @@ export async function createRecipe(values: AddRecipeFormValues): Promise<string>
     formData.append('thumb', values.thumb);
   }
 
-  const res = await fetch('/api/recipes/my', {
+  // бекенд приймає POST саме на /api/recipes 
+  const res = await fetch('/api/recipes', {
     method: 'POST',
     body: formData,
   });
