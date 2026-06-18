@@ -29,7 +29,7 @@ const privateRoutes = ['/profile/own', '/profile/favorites', '/add-recipe', '/au
 // масив публічних маршрутів;
 
 // додаємо ці маршрути в matcher.
-const publicRoutes = ['/auth/login', '/auth/register', '/recipes'];
+const publicRoutes = ['/auth/login', '/auth/register', '/recipes/*'];
 
 export async function proxy(request: NextRequest) {
   // Отримання токенів із cookie
@@ -119,6 +119,6 @@ export const config = {
     '/profile/own',
     '/profile/favorites',
     '/add-recipe',
-    '/recipes',
+    '/recipes/:path*',
   ],
 };
