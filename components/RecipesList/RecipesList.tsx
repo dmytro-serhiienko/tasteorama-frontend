@@ -1,51 +1,51 @@
 'use client';
 
-import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
-
-import { getRecipes } from '@/lib/api/clientApi';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import RecipeCard from '@/components/RecipeCard/RecipeCard';
 import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
+import { NoSearchResults } from '@/components/Filters/NoSearchResults';
 
 import css from './RecipesList.module.css';
 import Loading from '@/app/loading';
 import AppError from '@/app/error';
-// import NotFoundRecipePage from '@/app/recipes/[recipeId]/not-found';
+
+import { resetSearchAndFilters } from '@/components/Filters/helpers';
+import { useRecipesList } from '@/hooks/useRecipesList';
 
 const RecipesList = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const category = searchParams.get('category') ?? undefined;
-  const ingredient = searchParams.get('ingredient') ?? undefined;
-  const search = searchParams.get('search') ?? undefined;
+
+  const handleResetSearchAndFilters = () => {
+    resetSearchAndFilters(searchParams, router);
+  };
 
   const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
+    recipes,
     isLoading,
     isError,
     error,
     refetch,
-  } = useInfiniteQuery({
-    queryKey: ['recipes', { category, ingredient, search }],
-    queryFn: ({ pageParam = 1 }) => getRecipes(pageParam, undefined, search, category, ingredient),
-    initialPageParam: 1,
-    placeholderData: keepPreviousData,
-    getNextPageParam: lastPage => {
-      if (lastPage.page < lastPage.totalPages) {
-        return lastPage.page + 1;
-      }
-      return undefined;
-    },
-  });
+    isNotFound,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useRecipesList();
+
+  useEffect(() => {
+    if (isNotFound) {
+      toast.error('No recipes found');
+    }
+  }, [isNotFound]);
 
   if (isLoading) {
     return <Loading />;
   }
 
-  if (isError) {
+  if (isError && !isNotFound) {
     return (
       <AppError
         error={error instanceof Error ? error : new Error('Something went wrong')}
@@ -54,23 +54,28 @@ const RecipesList = () => {
     );
   }
 
-  const recipes = data?.pages.flatMap(page => page.data) ?? [];
-
-  // if (recipes.length === 0) {
-  //   NotFoundRecipePage();
-  // }
-
   return (
     <div className={css.wrapper}>
-      <ul className={css.list}>
-        {recipes.map(recipe => (
-          <li key={recipe._id} className={css.item}>
-            <RecipeCard recipe={recipe} />
-          </li>
-        ))}
-      </ul>
+      {isNotFound ? (
+        <NoSearchResults onReset={handleResetSearchAndFilters} />
+      ) : (
+        <>
+          <ul className={css.list}>
+            {recipes.map(recipe => (
+              <li key={recipe._id} className={css.item}>
+                <RecipeCard recipe={recipe} />
+              </li>
+            ))}
+          </ul>
 
-      {hasNextPage && <LoadMoreBtn onClick={fetchNextPage} isLoading={isFetchingNextPage} />}
+          {hasNextPage && (
+            <LoadMoreBtn
+              onClick={fetchNextPage}
+              isLoading={isFetchingNextPage}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 };
