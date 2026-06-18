@@ -1,7 +1,7 @@
 // lib/api/api.ts — для створення одного спільного екземпляра axios,
 // з налаштуванням withCredentials: true для підтримки cookies;
 // ==========================================================================================
-
+console.log(process.env.NEXT_PUBLIC_API_URL);
 // Імпорт бібліотеки axios
 import axios from 'axios';
 
