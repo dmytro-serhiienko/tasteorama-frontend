@@ -58,7 +58,10 @@ const PasswordInput = ({
         aria-label={show ? 'Hide password' : 'Show password'}
         className={css.eyeBtn}
       >
-        <Image src={show ? '/eye.svg' : '/eye-closed.svg'} alt="" width={24} height={24} />
+        {/* Заменяем Next.js компонент Image на SVG из нашего спрайта */}
+        <svg width={24} height={24} className={css.eyeIcon}>
+          <use href={show ? '/sprite.svg#open-eye' : '/sprite.svg#close-eye'} />
+        </svg>
       </button>
     </div>
   );
