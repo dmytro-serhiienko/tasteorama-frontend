@@ -9,6 +9,27 @@ type RawCollectionResponse<T> = {
   ingredients?: T[];
 };
 
+type RawCreateRecipeResponse = CreateRecipeResponse & {
+  id?: string;
+  _id?: string;
+  recipe?: {
+    id?: string;
+    _id?: string;
+  };
+};
+
+function extractRecipeId(payload: RawCreateRecipeResponse): string | null {
+  const id =
+    payload?.data?._id ??
+    payload?.data?.id ??
+    payload?._id ??
+    payload?.id ??
+    payload?.recipe?._id ??
+    payload?.recipe?.id;
+
+  return typeof id === 'string' && id.length > 0 ? id : null;
+}
+
 // парсить тіло відповіді  JSON
 async function safeParseJson<T>(res: Response): Promise<T | null> {
   const text = await res.text();
@@ -101,12 +122,6 @@ export async function createRecipe(values: AddRecipeFormValues): Promise<string>
     throw new Error(message);
   }
 
-  const recipeResponse = (await res.json()) as CreateRecipeResponse;
-  const recipeId = recipeResponse?.data?._id;
-
-  if (!recipeId) {
-    throw new Error('Рецепт створено, але не отримано id');
-  }
-
-  return recipeId;
+  const recipeResponse = (await res.json()) as RawCreateRecipeResponse;
+  return extractRecipeId(recipeResponse) ?? '';
 }
