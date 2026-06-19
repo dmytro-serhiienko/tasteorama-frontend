@@ -49,8 +49,12 @@ export const logout = async (): Promise<void> => {
 // ==========================================================================================
 // getMe : Отримання об’єкта користувача (профілю) для авторизованого користувача
 // ==========================================================================================
+export type GetMeRequest = {
+  data: User;
+};
+
 export const getMe = async () => {
-  const res = await nextServer.get<User>('/auth/me');
+  const res = await nextServer.get<GetMeRequest>('/auth/me');
   return res.data;
 };
 

@@ -28,7 +28,8 @@ const AuthProvider = ({ children }: Props) => {
 
       if (isAuthenticated) {
         // Якщо сесія валідна — отримуємо користувача
-        const user = await getMe();
+        const res = await getMe();
+        const user = res.data;
         if (user) setUser(user);
       } else {
         // Якщо сесія невалідна — чистимо стан
