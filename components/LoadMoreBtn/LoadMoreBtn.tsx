@@ -11,7 +11,7 @@ const LoadMoreBtn = ({ onClick, isLoading }: LoadMoreBtnProps) => {
   return (
     <div className={css.wrapper}>
       <button className={css.button} onClick={onClick} disabled={isLoading} type="button">
-        {isLoading ? 'Loading...' : 'Load more'}
+        {isLoading ? 'Loading...' : 'Load More'}
       </button>
     </div>
   );
