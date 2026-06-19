@@ -22,14 +22,14 @@ const Filters: FC<FiltersProps> = ({ totalItems }) => {
   const searchParams = useSearchParams();
 
   const { data: categories = [], isLoading: isCategoriesLoading } = useQuery<Category[]>({
-    queryKey: ['categories'],
+    queryKey: ['filters-categories'],
     queryFn: async () => {
       return await getCategories()
     },
   });
 
   const { data: ingredients = [], isLoading: isIngredientsLoading } = useQuery<Ingredient[]>({
-    queryKey: ['ingredients'],
+    queryKey: ['filters-ingredients'],
     queryFn: async () => {
       return await getIngredients()
     },
@@ -92,7 +92,7 @@ const Filters: FC<FiltersProps> = ({ totalItems }) => {
   }
 
   return (
-    <section className={css.wrapper}>
+    <section className={`${css.wrapper} container`}>
       <div className={css.mobileHeader}>
         <div className={css.topRow}>
           <p className={css.counter}>{totalItems} recipes</p>
