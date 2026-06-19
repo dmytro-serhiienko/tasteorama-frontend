@@ -74,8 +74,17 @@ const AddRecipeForm = () => {
                 if (e.key === 'Enter') {
                   const target = e.target as HTMLElement;
 
-                  // В текстареа Ентер це новий рядок
-                  if (target.tagName === 'TEXTAREA') {
+                  // Не чіпаємо нативну поведінку елементів, де Enter має власну дію.
+                  if (
+                    target.tagName === 'TEXTAREA' ||
+                    target.tagName === 'SELECT' ||
+                    target.tagName === 'OPTION' ||
+                    target.tagName === 'BUTTON'
+                  ) {
+                    return;
+                  }
+
+                  if ((target as HTMLInputElement).type === 'file') {
                     return;
                   }
 
