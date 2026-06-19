@@ -31,6 +31,7 @@
   cursor: pointer;
   padding: 0;
   display: flex;
+  transition: color 0.2s ease;
 }
 
 .closeIcon {
@@ -39,6 +40,15 @@
   stroke-width: 2px;
 }
 
+.closeBtn:hover,
+.closeBtn:focus {
+  opacity: 0.5;
+}
+
+.closeBtn:active {
+  opacity: 1;
+  border-bottom: 1px solid black;
+}
 /* Tablet and Desktop styles */
 
 @media (min-width: 768px) {
