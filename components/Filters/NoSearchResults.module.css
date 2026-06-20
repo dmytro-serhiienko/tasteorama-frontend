@@ -6,15 +6,13 @@
   min-height: 207px;
   box-sizing: border-box;
   background: var(--light-beige);
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-top: 40px;
-  padding-bottom: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .wrapperOne {
-  margin-bottom: 48px;
-  margin-top: 48px;
+  margin: 48px 0;
 }
 
 .text {
@@ -23,7 +21,6 @@
   font-size: 24px;
   text-align: center;
   color: var(--black);
-  margin-bottom: 15px;
 }
 
 .button {

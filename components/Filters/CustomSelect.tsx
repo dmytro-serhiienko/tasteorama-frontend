@@ -62,7 +62,7 @@ const CustomSelect = ({
       {isOpen && (
         <ul className={css.dropdown}>
           <li className={css.searchItem}>
-            <input className={css.searchFilter} type='text' value={search} onChange={e => setSearch(e.target.value)} placeholder='Search...'></input>
+            <input className={css.searchFilter} type='text' value={search} onChange={e => setSearch(e.target.value)} placeholder='Search...'/>
           </li>
           {filteredOptions.map(option => (
 
@@ -73,7 +73,7 @@ const CustomSelect = ({
               }`}
               onClick={() => {
                 onChange(option.value);
-                setIsOpen(prev => !prev);
+                setIsOpen(false);
                 setSearch('')
               }}
             >

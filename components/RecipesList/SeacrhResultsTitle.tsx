@@ -9,8 +9,10 @@ export default function SearchResultsTitle() {
 
 
   return (
-  <h2 className={`${css.h2} container`}>
+  <div className={`${css.TitleResults} container`}>
+    <h2 className={css.h2}>
     {search ? `Search Results for "${search}"` : 'Recipes'}
   </h2>
+  </div>
 );
 }
