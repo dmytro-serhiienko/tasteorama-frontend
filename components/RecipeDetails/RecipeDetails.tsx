@@ -36,7 +36,7 @@ export default function RecipeDetails({ recipe }: Props) {
     }
   };
 
-  const InfoCard = () => (
+  const infoCard = (
     <div className={styles.infoCard}>
       <h3 className={styles.infoTitle}>General informations</h3>
       <div className={styles.infoItem}>
@@ -54,7 +54,7 @@ export default function RecipeDetails({ recipe }: Props) {
     </div>
   );
 
-  const SaveButton = () => (
+  const saveButton = (
     <button
       className={`${styles.saveBtn} ${isSaved ? styles.saveBtnActive : ''}`}
       onClick={handleSaveToggle}
@@ -89,13 +89,17 @@ export default function RecipeDetails({ recipe }: Props) {
         />
       </div>
 
-      {/* Mobile/Tablet: General info + кнопка під картинкою */}
+      {/*
+        Mobile: infoCard зверху, saveButton знизу — колонка
+        Tablet: infoCard зліва, saveButton справа — рядок
+        Desktop: цей блок прихований, замість нього aside
+      */}
       <div className={styles.infoRowMobile}>
-        <InfoCard />
-        <SaveButton />
+        {infoCard}
+        {saveButton}
       </div>
 
-      {/* Desktop: два стовпці */}
+      {/* Текстовий контент */}
       <div className={styles.desktopLayout}>
         <div className={styles.textContent}>
           <section className={styles.section}>
@@ -120,9 +124,10 @@ export default function RecipeDetails({ recipe }: Props) {
           </section>
         </div>
 
+        {/* Aside — тільки на desktop, з infoCard і saveButton */}
         <aside className={styles.aside}>
-          <InfoCard />
-          <SaveButton />
+          {infoCard}
+          {saveButton}
         </aside>
       </div>
     </div>
