@@ -94,7 +94,7 @@ export async function getCategories(): Promise<Category[]> {
   console.log('Fetch - GET getCategories :');
   console.log('response', response);
   console.log('response.data', response.data);
-console.log(response.data);
+  console.log(response.data);
   // Повертаємо значення відповіді
   return response.data.categories;
 }
@@ -144,7 +144,7 @@ interface GetRecipesHttpResponse {
 
 // Типізація відповіді Get-запиту від Axios - один рецепт за Id - згідно структури бекенда :
 interface GetRecipeHttpResponse {
-  data: Recipe; // Відповідь містить один рецепт у властивості data
+  recipe: Recipe; // було data, але бекенд повертає recipe
 }
 // ==========================================================================================
 // getRecipes : виконує запит для отримання колекції рецептів

@@ -3,8 +3,25 @@
 ══════════════════════════════════════ */
 .wrapper {
   padding: 24px 16px 48px;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Mobile: картинка вище заголовку */
+.title {
+  order: 2;
+}
+.imageWrapper {
+  order: 1;
+}
+.infoRowMobile {
+  order: 3;
+}
+.desktopLayout {
+  order: 4;
+}
+
+/* Заголовок */
 .title {
   font-weight: 600;
   font-size: 28px;
@@ -13,10 +30,10 @@
   margin: 0 0 16px;
 }
 
-/* Фото mobile — строго 361x276 */
+/* ── Фото mobile — резина до 393px ── */
 .imageWrapper {
   position: relative;
-  width: 361px;
+  width: 100%;
   height: 276px;
   border-radius: 8px;
   overflow: hidden;
@@ -25,16 +42,15 @@
 }
 
 .image {
-  object-fit: contain;
+  object-fit: cover;
 }
 
-/* General info mobile — колонка */
+/* ── Mobile: infoCard + кнопка — колонка ── */
 .infoRowMobile {
   display: flex;
   flex-direction: column;
   gap: 16px;
   margin-bottom: 40px;
-  width: 361px;
 }
 
 .infoCard {
@@ -44,7 +60,6 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 100%;
 }
 
 .infoTitle {
@@ -74,7 +89,7 @@
   color: #000;
 }
 
-/* Save button mobile — строго 361x56 */
+/* ── Save button mobile — резина до 393px ── */
 .saveBtn {
   display: flex;
   align-items: center;
@@ -86,17 +101,26 @@
   border-radius: 8px;
   padding: 16px;
   height: 56px;
-  width: 361px;
+  width: 100%;
   font-weight: 600;
   font-size: 18px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-.saveBtn:hover:not(:disabled) { background-color: #7a5535; }
-.saveBtn:disabled { opacity: 0.7; cursor: not-allowed; }
-.saveBtnActive { background-color: #3c1a1a; }
-.saveBtnActive:hover:not(:disabled) { background-color: #2a1010; }
+.saveBtn:hover:not(:disabled) {
+  background-color: #7a5535;
+}
+.saveBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+.saveBtnActive {
+  background-color: #3c1a1a;
+}
+.saveBtnActive:hover:not(:disabled) {
+  background-color: #2a1010;
+}
 
 .saveIcon {
   fill: none;
@@ -105,12 +129,12 @@
   flex-shrink: 0;
 }
 
-/* Aside — прихований на mobile/tablet */
+/* ── Aside — прихований на mobile/tablet ── */
 .aside {
   display: none;
 }
 
-/* Текстовий контент */
+/* ── Текстовий контент ── */
 .desktopLayout {
   display: flex;
   flex-direction: column;
@@ -120,7 +144,6 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
-  width: 361px;
 }
 
 .section {
@@ -162,11 +185,60 @@
 }
 
 /* ══════════════════════════════════════
-   TABLET — строго 768px
+   393px — фіксовані розміри
+══════════════════════════════════════ */
+@media (min-width: 393px) {
+  .imageWrapper {
+    width: 361px;
+    height: 276px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .saveBtn {
+    width: 361px;
+  }
+
+  .infoRowMobile {
+    width: 361px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .textContent {
+    width: 361px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .title {
+    width: 361px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 16px;
+  }
+}
+
+/* ══════════════════════════════════════
+   TABLET — 768px — строгі розміри
 ══════════════════════════════════════ */
 @media (min-width: 768px) {
   .wrapper {
     padding: 32px 40px 64px;
+  }
+
+  /* Скидаємо order — заголовок повертається вище картинки */
+  .title {
+    order: unset;
+  }
+  .imageWrapper {
+    order: unset;
+  }
+  .infoRowMobile {
+    order: unset;
+  }
+  .desktopLayout {
+    order: unset;
   }
 
   .title {
@@ -188,7 +260,7 @@
     object-fit: cover;
   }
 
-  /* General info + кнопка — рядок, строго під картинкою */
+  /* Tablet: infoCard + кнопка — рядок */
   .infoRowMobile {
     flex-direction: row;
     align-items: flex-start;
@@ -223,7 +295,7 @@
 }
 
 /* ══════════════════════════════════════
-   DESKTOP — строго 1440px
+   DESKTOP — 1440px — строгі розміри
    Контент не резиновий після 1440px
 ══════════════════════════════════════ */
 @media (min-width: 1440px) {
@@ -252,7 +324,7 @@
     object-fit: contain;
   }
 
-  /* Ховаємо mobile infoRow */
+  /* Ховаємо mobile/tablet infoRow */
   .infoRowMobile {
     display: none;
   }
@@ -271,7 +343,7 @@
     gap: 40px;
   }
 
-  /* Aside — строго 393px */
+  /* Aside — строго 393px, тільки на desktop */
   .aside {
     display: flex;
     flex-direction: column;
@@ -290,5 +362,6 @@
   .saveBtn {
     width: 393px;
     height: 56px;
+    align-self: auto;
   }
 }
