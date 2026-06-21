@@ -15,26 +15,21 @@ interface CustomSelectProps {
   onChange: (value: string) => void;
 }
 
-const CustomSelect = ({
-  value,
-  placeholder,
-  options,
-  onChange,
-}: CustomSelectProps) => {
+const CustomSelect = ({ value, placeholder, options, onChange }: CustomSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = options.find(opt => opt.value === value);
-    const filteredOptions = options.filter(option =>
-  option.label.toLowerCase().includes(search.toLowerCase())
-);
+  const filteredOptions = options.filter(option =>
+    option.label.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setIsOpen(false);
-        setSearch('')
+        setSearch('');
       }
     };
 
@@ -44,14 +39,8 @@ const CustomSelect = ({
 
   return (
     <div className={css.wrapper} ref={wrapperRef}>
-      <button
-        type="button"
-        className={css.selectButton}
-        onClick={() => setIsOpen(prev => !prev)}
-      >
-        <span className={css.buttonLabel}>
-          {selectedOption?.label || placeholder}
-        </span>
+      <button type="button" className={css.selectButton} onClick={() => setIsOpen(prev => !prev)}>
+        <span className={css.buttonLabel}>{selectedOption?.label || placeholder}</span>
         <span className={`${css.arrow} ${isOpen ? css.arrowOpen : ''}`}>
           <svg width={16} height={16}>
             <use href="/sprite.svg#down"></use>
@@ -62,25 +51,36 @@ const CustomSelect = ({
       {isOpen && (
         <ul className={css.dropdown}>
           <li className={css.searchItem}>
-            <input className={css.searchFilter} type='text' value={search} onChange={e => setSearch(e.target.value)} placeholder='Search...'/>
-          </li>
-          {filteredOptions.map(option => (
-
-            <li
-              key={option.value}
-              className={`${css.option} ${
-                option.value === value ? css.optionSelected : ''
-              }`}
-              onClick={() => {
-                onChange(option.value);
-                setIsOpen(false);
-                setSearch('')
-              }}
-            >
-              {option.label}
-            </li>
-          ))}
-
+  <div className={css.searchItemWrapper}>
+    <svg className={css.searchIcon} width={16} height={16}>
+      <use href="/sprite.svg#search"></use>
+    </svg>
+    <input 
+      className={css.searchFilter} 
+      type='text' 
+      value={search} 
+      onChange={e => setSearch(e.target.value)} 
+      placeholder='Search...'
+    />
+  </div>
+</li>
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map(option => (
+              <li
+                key={option.value}
+                className={`${css.option} ${option.value === value ? css.optionSelected : ''}`}
+                onClick={() => {
+                  onChange(option.value);
+                  setIsOpen(false);
+                  setSearch('');
+                }}
+              >
+                {option.label}
+              </li>
+            ))
+          ) : (
+            <li className={css.emptyMessage}>Not found</li>
+          )}
         </ul>
       )}
     </div>
