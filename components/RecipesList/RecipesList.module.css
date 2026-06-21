@@ -13,6 +13,7 @@
   flex-direction: column;
   align-items: stretch;
   box-sizing: border-box;
+  margin-bottom: 46px;
 }
 
 /* Grid список */
