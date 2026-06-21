@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, } from 'react';
 import css from './CustomSelect.module.css';
+import { SearchInput } from '@/components/SearchInput/SearchInput';
+import { useSearch } from '@/hooks/useSearch';
 
 interface Option {
   value: string;
@@ -17,25 +19,31 @@ interface CustomSelectProps {
 
 const CustomSelect = ({ value, placeholder, options, onChange }: CustomSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState('');
+const {
+  search,
+  setSearch,
+  clearSearch,
+  filteredItems: filteredOptions,
+} = useSearch({
+  items: options,
+  getLabel: option => option.label,
+});
+
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = options.find(opt => opt.value === value);
-  const filteredOptions = options.filter(option =>
-    option.label.toLowerCase().includes(search.toLowerCase())
-  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setIsOpen(false);
-        setSearch('');
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
 
   return (
     <div className={css.wrapper} ref={wrapperRef}>
@@ -51,19 +59,12 @@ const CustomSelect = ({ value, placeholder, options, onChange }: CustomSelectPro
       {isOpen && (
         <ul className={css.dropdown}>
           <li className={css.searchItem}>
-  <div className={css.searchItemWrapper}>
-    <svg className={css.searchIcon} width={16} height={16}>
-      <use href="/sprite.svg#search"></use>
-    </svg>
-    <input 
-      className={css.searchFilter} 
-      type='text' 
-      value={search} 
-      onChange={e => setSearch(e.target.value)} 
-      placeholder='Search...'
-    />
-  </div>
-</li>
+            <SearchInput
+              value={search}
+              onChange={setSearch}
+              placeholder="Search..."
+            />
+          </li>
           {filteredOptions.length > 0 ? (
             filteredOptions.map(option => (
               <li
@@ -72,7 +73,7 @@ const CustomSelect = ({ value, placeholder, options, onChange }: CustomSelectPro
                 onClick={() => {
                   onChange(option.value);
                   setIsOpen(false);
-                  setSearch('');
+                  clearSearch()
                 }}
               >
                 {option.label}
