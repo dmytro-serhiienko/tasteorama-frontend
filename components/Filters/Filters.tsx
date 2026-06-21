@@ -99,10 +99,10 @@ const Filters: FC<FiltersProps> = ({ totalItems }) => {
 
           {!isOpen && (
             <button className={css.filtersButton} onClick={() => setIsOpen(true)}>
-              <svg width={20} height={20}>
+              Filters
+              <svg className={css.icon} width={24} height={24}>
                 <use href="/sprite.svg#filter"></use>
               </svg>
-              Filters
             </button>
           )}
         </div>
