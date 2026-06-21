@@ -55,18 +55,15 @@ export default function RecipeDetails({ recipe }: Props) {
   );
 
   const saveButton = (
-    <button
-      className={`${styles.saveBtn} ${isFavorite ? styles.saveBtnActive : ''}`}
-      onClick={handleSaveToggle}
-      disabled={isLoading}
-    >
+    <button className={styles.saveBtn} onClick={handleSaveToggle} disabled={isLoading}>
       {isLoading ? (
         'Loading...'
       ) : (
         <>
           {isFavorite ? 'Unsave' : 'Save'}
-          <svg width="20" height="20" className={styles.saveIcon}>
-            <use href="/sprite.svg#save" />
+          <svg className={styles.saveIcon}>
+            {/* Твоя первоначальная логика: переключаем ID картинок. Работает мгновенно и без сбоев! */}
+            <use href={isFavorite ? '/sprite.svg#unsave' : '/sprite.svg#save'} />
           </svg>
         </>
       )}
