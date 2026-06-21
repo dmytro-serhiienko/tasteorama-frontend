@@ -1,10 +1,12 @@
+.TitleResults {
+  margin-top: 40;
+  margin-bottom: 16px;
+}
 .h2 {
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 32px;
   color: var(--black);
-  margin-top: 48px;
-  margin-bottom: 16px;
 }
 
 @media screen and (min-width: 768px) {

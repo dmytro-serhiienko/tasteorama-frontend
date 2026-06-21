@@ -1,8 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/lib/store/authStore';
+import { useFavorite } from '@/hooks/useFavorite';
+import { getIngredients } from '@/lib/api/clientApi';
 import { Recipe } from '@/types/recipe';
 import styles from './RecipeDetails.module.css';
 
@@ -12,31 +14,29 @@ type Props = {
 
 export default function RecipeDetails({ recipe }: Props) {
   const { isAuthenticated } = useAuthStore();
-  const [isSaved, setIsSaved] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isFavorite, isLoading, toggleFavorite } = useFavorite({ recipeId: recipe._id });
 
-  const handleSaveToggle = async () => {
+  // Інгредієнти рецепту зберігаються як { id, measure } — id це ObjectId.
+  // Тягнемо колекцію інгредієнтів, щоб показати назву замість id.
+  const { data: ingredients = [] } = useQuery({
+    queryKey: ['ingredients'],
+    queryFn: getIngredients,
+  });
+
+  const getIngredientName = (id: string) =>
+    ingredients.find(ingredient => ingredient._id === id)?.name ?? id;
+
+  const handleSaveToggle = () => {
     if (!isAuthenticated) {
       // TODO: відкрити модалку
       return;
     }
-    setIsLoading(true);
-    try {
-      if (isSaved) {
-        await fetch(`/api/recipes/favorites/${recipe._id}`, { method: 'DELETE' });
-        setIsSaved(false);
-      } else {
-        await fetch(`/api/recipes/favorites/${recipe._id}`, { method: 'POST' });
-        setIsSaved(true);
-      }
-    } catch (error) {
-      console.error('Error toggling favorite:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    // Спільна логіка з картками рецептів: читає реальний статус зі стора,
+    // додає/видаляє з улюблених і не падає 400 на вже збереженому рецепті.
+    toggleFavorite();
   };
 
-  const InfoCard = () => (
+  const infoCard = (
     <div className={styles.infoCard}>
       <h3 className={styles.infoTitle}>General informations</h3>
       <div className={styles.infoItem}>
@@ -54,19 +54,16 @@ export default function RecipeDetails({ recipe }: Props) {
     </div>
   );
 
-  const SaveButton = () => (
-    <button
-      className={`${styles.saveBtn} ${isSaved ? styles.saveBtnActive : ''}`}
-      onClick={handleSaveToggle}
-      disabled={isLoading}
-    >
+  const saveButton = (
+    <button className={styles.saveBtn} onClick={handleSaveToggle} disabled={isLoading}>
       {isLoading ? (
         'Loading...'
       ) : (
         <>
-          {isSaved ? 'Unsave' : 'Save'}
-          <svg width="20" height="20" className={styles.saveIcon}>
-            <use href="/sprite.svg#save" />
+          {isFavorite ? 'Unsave' : 'Save'}
+          <svg className={styles.saveIcon}>
+            {/* Твоя первоначальная логика: переключаем ID картинок. Работает мгновенно и без сбоев! */}
+            <use href={isFavorite ? '/sprite.svg#unsave' : '/sprite.svg#save'} />
           </svg>
         </>
       )}
@@ -89,13 +86,17 @@ export default function RecipeDetails({ recipe }: Props) {
         />
       </div>
 
-      {/* Mobile/Tablet: General info + кнопка під картинкою */}
+      {/*
+        Mobile: infoCard зверху, saveButton знизу — колонка
+        Tablet: infoCard зліва, saveButton справа — рядок
+        Desktop: цей блок прихований, замість нього aside
+      */}
       <div className={styles.infoRowMobile}>
-        <InfoCard />
-        <SaveButton />
+        {infoCard}
+        {saveButton}
       </div>
 
-      {/* Desktop: два стовпці */}
+      {/* Текстовий контент */}
       <div className={styles.desktopLayout}>
         <div className={styles.textContent}>
           <section className={styles.section}>
@@ -108,7 +109,7 @@ export default function RecipeDetails({ recipe }: Props) {
             <ul className={styles.ingredientsList}>
               {recipe.ingredients.map((item, index) => (
                 <li key={index} className={styles.ingredientItem}>
-                  • {item.id} — {item.measure}
+                  • {getIngredientName(item.id)} — {item.measure}
                 </li>
               ))}
             </ul>
@@ -120,9 +121,10 @@ export default function RecipeDetails({ recipe }: Props) {
           </section>
         </div>
 
+        {/* Aside — тільки на desktop, з infoCard і saveButton */}
         <aside className={styles.aside}>
-          <InfoCard />
-          <SaveButton />
+          {infoCard}
+          {saveButton}
         </aside>
       </div>
     </div>

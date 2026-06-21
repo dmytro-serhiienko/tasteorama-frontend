@@ -5,9 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { useAuthStore } from '@/lib/store/authStore';
+import Modal from '@/components/Modal/Modal';
 import SaveRecipeNotAuthorized from '@/components/SaveRecipeNotAuthorized/SaveRecipeNotAuthorized';
 
-import { useFavorite } from './useFavorite';
+import { useFavorite } from '../../hooks/useFavorite';
 import css from './RecipeCard.module.css';
 
 import type { Recipe } from '@/types/recipe';
@@ -21,7 +22,6 @@ const RecipeCard = ({ recipe, initialIsFavorite = false }: RecipeCardProps) => {
   const { _id, title, thumb, time, description, calories } = recipe;
 
   const [showAuthModal, setShowAuthModal] = useState(false);
-
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
   const { isFavorite, isLoading, toggleFavorite } = useFavorite({
@@ -41,8 +41,14 @@ const RecipeCard = ({ recipe, initialIsFavorite = false }: RecipeCardProps) => {
   return (
     <>
       <article className={css.card}>
-        {/* Тимчасово img, поки не додали домен для next/image */}
-        <img src={thumb} alt={title} loading="lazy" className={css.img} />
+        <Image
+          src={thumb}
+          alt={title}
+          width={264}
+          height={178}
+          sizes="(max-width: 767px) 337px, (max-width: 1439px) 315px, 264px"
+          className={css.img}
+        />
 
         <div className={css.header}>
           <h3 className={css.title}>{title}</h3>
@@ -52,12 +58,13 @@ const RecipeCard = ({ recipe, initialIsFavorite = false }: RecipeCardProps) => {
               <use href="/sprite.svg#clock" />
             </svg>
 
-            <span className={css.time}>{time ? `${time} min` : '—'}</span>
+            <span className={css.time}>{time ? `${time}` : '—'}</span>
           </span>
         </div>
 
         <div className={css.desBox}>
           <p>{description}</p>
+          <p>{calories ? `~${calories} cals` : 'N/A'}</p>
         </div>
 
         <div className={css.btnBox}>
@@ -83,7 +90,11 @@ const RecipeCard = ({ recipe, initialIsFavorite = false }: RecipeCardProps) => {
         </div>
       </article>
 
-      {showAuthModal && <SaveRecipeNotAuthorized onClose={() => setShowAuthModal(false)} />}
+      {showAuthModal && (
+        <Modal onClose={() => setShowAuthModal(false)}>
+          <SaveRecipeNotAuthorized />
+        </Modal>
+      )}
     </>
   );
 };

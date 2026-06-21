@@ -5,7 +5,7 @@ type NoSearchResultsProps = {
 export const NoSearchResults = ({onReset}: NoSearchResultsProps) => {
     
     return (
-        <div className={css.wrapperOne}>
+        <div className={`${css.wrapperOne} container`}>
             <div className={css.wrapper}>
             <h1 className={css.text}>We’re sorry! We were not able to find a match.</h1>
             <button onClick={onReset} className={css.button}>Reset search and filters</button>

@@ -25,13 +25,7 @@ import { parse } from 'cookie';
 import { checkSessionServer } from './lib/api/serverApi';
 
 // масив приватних маршрутів
-const privateRoutes = [
-  '/logout',
-  '/profile/own',
-  '/profile/favorites',
-  '/add-recipe',
-  '/recipes/:path*',
-];
+const privateRoutes = ['/logout', '/profile/own', '/profile/favorites', '/add-recipe'];
 // масив публічних маршрутів
 const publicRoutes = ['/auth/login', '/auth/register', '/recipes'];
 
@@ -63,7 +57,7 @@ export async function proxy(request: NextRequest) {
       // Якщо accessToken відсутній, але є refreshToken — потрібно перевірити сесію навіть для публічного маршруту,
       // адже сесія може залишатися активною, і тоді потрібно заборонити доступ до публічного маршруту.
       const data = await checkSessionServer();
-      const setCookie = data.headers['set-cookie'];
+      const setCookie = data?.headers['set-cookie'];
 
       if (setCookie) {
         const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
@@ -132,6 +126,5 @@ export const config = {
     '/profile/favorites',
     '/add-recipe',
     '/recipes',
-    '/recipes/:path*',
   ],
 };
