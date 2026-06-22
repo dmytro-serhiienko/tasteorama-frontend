@@ -47,6 +47,10 @@ const RecipeCard = ({ recipe, initialIsFavorite = false, recipeType }: RecipeCar
   };
 
   const handleDeleteClick = async () => {
+    if (!window.confirm('Delete this recipe?')) {
+      return;
+    }
+
     try {
       setIsDeleting(true);
       await deleteRecipe(_id);
