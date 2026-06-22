@@ -225,7 +225,9 @@ interface PostRecipeHttpResponse {
   recipe: Recipe; // Відповідь містить масив рецептів у властивості data
 }
 
-export async function createRecipe(recipeNew: PostRecipeHttpRequest): Promise<PostRecipeHttpResponse> {
+export async function createRecipe(
+  recipeNew: PostRecipeHttpRequest
+): Promise<PostRecipeHttpResponse> {
   // Виконуємо HTTP-запит на додавання нового запису
   const response = await nextServer.post<PostRecipeHttpResponse>('/recipes', recipeNew);
 
@@ -343,3 +345,20 @@ export const addRecipeToFavorites = async (recipeId: string): Promise<void> => {
 export const removeRecipeFromFavorites = async (recipeId: string): Promise<void> => {
   await nextServer.delete(`/recipes/favorites/${recipeId}`);
 };
+
+// ==========================================================================================
+// deleteMyRecipe : видалення власного рецепта користувача (приватний маршрут /api/recipes/my)
+// ==========================================================================================
+export async function deleteMyRecipe(recipeId: string): Promise<Recipe> {
+  try {
+    const response = await nextServer.delete<Recipe>(`/recipes/${recipeId}`);
+    return response.data;
+  } catch (error) {
+    // // Бекенд повертає 404, якщо у користувача  рецептів.
+    // // Трактуємо це як порожній список, а не як помилку.
+    // if (isAxiosError(error) && error.response?.status === 404) {
+    //   return { page, perPage, totalItems: 0, totalPages: 0, data: [] };
+    // }
+    throw error;
+  }
+}
