@@ -198,6 +198,48 @@ export async function getRecipes(
 }
 
 // ==========================================================================================
+// createRecipe: виконує запит для додавання рецепта
+// ==========================================================================================
+
+// Типізація запиту POST-запиту від Axios - рецепт :
+interface PostRecipeHttpRequest {
+  title: string;
+  category: string;
+  owner: string;
+  area: string;
+  instructions: string;
+  description: string;
+  thumb: string;
+  time: string;
+  calories: string;
+  ingredients: {
+    id: string;
+    measure: string;
+  }[];
+}
+
+// import type { AddRecipeFormValues } from '../../components/AddRecipeForm/types';
+
+// Типізація відповіді POST-запиту від Axios - рецепт :
+interface PostRecipeHttpResponse {
+  recipe: Recipe; // Відповідь містить масив рецептів у властивості data
+}
+
+export async function createRecipe(recipeNew: PostRecipeHttpRequest): Promise<PostRecipeHttpResponse> {
+  // Виконуємо HTTP-запит на додавання нового запису
+  const response = await nextServer.post<PostRecipeHttpResponse>('/recipes', recipeNew);
+
+  // ====== TEST ============================================================
+  console.log('lib-api-clientApi.ts-createRecipe-responce', response);
+  console.log('lib-api-clientApi.ts-createRecipe-responce.data', response.data);
+  // ====== TEST ============================================================
+
+  // Повертаємо інформацію про рецепт
+  return response.data;
+}
+// ==========================================================================================
+
+// ==========================================================================================
 // getRecipeById : виконує запит для отримання рецепта за його ID.
 // ==========================================================================================
 // Структура запиту :

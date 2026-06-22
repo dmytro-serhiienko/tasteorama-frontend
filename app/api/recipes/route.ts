@@ -37,7 +37,7 @@ function applySetCookieToStore(
   }
 }
 
-// GET /api/recipes — отримання списку рецептів з можливістю фільтрації
+// GET /recipes — отримання списку рецептів з можливістю фільтрації
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
   }
 }
 
-// POST /api/recipes — створення нового рецепту.
+// POST /recipes — створення нового рецепту.
 export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
@@ -88,6 +88,10 @@ export async function POST(request: NextRequest) {
           Cookie: cookieStore.toString(),
         },
       });
+      // ====== TEST ============================================================
+      console.log('app-api-recipes-route.ts-POST-res', res);
+      console.log('app-api-recipes-route.ts-POST-res.data', res.data);
+      // ====== TEST ============================================================
 
       return NextResponse.json(res.data, { status: res.status });
     } catch (error) {
