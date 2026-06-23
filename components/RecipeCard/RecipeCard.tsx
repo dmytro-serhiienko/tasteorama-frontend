@@ -102,8 +102,9 @@ const RecipeCard = ({ recipe, initialIsFavorite = false, recipeType }: RecipeCar
         </div>
 
         <div className={css.desBox}>
-          <p>{description}</p>
-          <p>{calories ? `Approximately ${calories} kcal per serving` : 'N/A'}</p>
+          <p className={css.description}>{description}</p>
+
+          <p className={css.calories}>{calories ? `${calories} cals` : 'N/A'}</p>
         </div>
 
         <div className={css.btnBox}>
