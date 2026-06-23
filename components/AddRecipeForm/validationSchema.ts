@@ -50,11 +50,11 @@ export const addRecipeValidationSchema = Yup.object({
     .required('Instructions are required'),
   thumb: Yup.mixed<File>()
     .nullable()
-    .test('fileSize', 'File is too large (up to 5MB)', value => {
+    .test('fileSize', 'File size must not exceed 2 MB', value => {
       if (!value) {
         return true;
       }
-      return value.size <= 5 * 1024 * 1024;
+      return value.size <= 2 * 1024 * 1024;
     })
     .test('fileType', 'Only .jpg, .jpeg, .png, .webp are allowed', value => {
       if (!value) {

@@ -110,18 +110,28 @@ const AddRecipeForm = () => {
                     type="file"
                     accept="image/png,image/jpeg,image/webp"
                     className={css.hiddenInput}
-                    onChange={event => {
+                    onChange={async event => {
+                      const input = event.currentTarget;
                       const file = event.currentTarget.files?.[0] ?? null;
-                      setFieldValue('thumb', file);
+                      try {
+                        await addRecipeValidationSchema.validateAt('thumb', {
+                          thumb: file,
+                        });
+                        setFieldValue('thumb', file);
 
-                      if (previewUrl) {
-                        URL.revokeObjectURL(previewUrl);
-                      }
+                        if (previewUrl) {
+                          URL.revokeObjectURL(previewUrl);
+                        }
 
-                      if (file) {
-                        setPreviewUrl(URL.createObjectURL(file));
-                      } else {
-                        setPreviewUrl(null);
+                        if (file) {
+                          setPreviewUrl(URL.createObjectURL(file));
+                        } else {
+                          setPreviewUrl(null);
+                        }
+                      } catch (error) {
+                        toast.error((error as Error).message);
+                        input.value = '';
+                        setFieldValue('thumb', null);
                       }
                     }}
                   />
@@ -299,7 +309,7 @@ const AddRecipeForm = () => {
                           }}
                         />
                       </div>
-                      <ErrorMessage name="category" component="span" className={css.error} />
+                      <ErrorMessage name="category" component="span" className={`${css.error} ${css.categoryError}`} />
                     </div>
                   </div>
                 </section>
