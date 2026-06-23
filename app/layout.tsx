@@ -39,7 +39,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   icons: {
-    icon: '/favicon-without-fill.svg',
+    icon: '/favicon.svg',
   },
   metadataBase: new URL('https://tasteorama-frontend.vercel.app/'),
   title: 'Tasteorama',
