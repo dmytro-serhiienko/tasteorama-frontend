@@ -92,6 +92,13 @@
   margin-bottom: 16px;
 }
 
+.description {
+  flex: 1;
+}
+
+.calories {
+  margin-top: auto;
+}
 .desBox p {
   display: -webkit-box;
   -webkit-box-orient: vertical;
