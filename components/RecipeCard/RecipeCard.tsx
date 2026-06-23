@@ -72,22 +72,14 @@ const RecipeCard = ({ recipe, initialIsFavorite = false, recipeType }: RecipeCar
   return (
     <>
       <article className={css.card}>
-        {thumb ? (
-          <Image
-            src={thumb}
-            alt={title}
-            width={264}
-            height={178}
-            sizes="(max-width: 767px) 337px, (max-width: 1439px) 315px, 264px"
-            className={css.img}
-          />
-        ) : (
-          <div className={css.imgPlaceholder} aria-hidden="true">
-            <svg className={css.placeholderIcon}>
-              <use href="/sprite.svg#media" />
-            </svg>
-          </div>
-        )}
+        <Image
+          src={thumb || '/recipe-no-photo.webp'}
+          alt={title}
+          width={264}
+          height={178}
+          sizes="(max-width: 767px) 337px, (max-width: 1439px) 315px, 264px"
+          className={css.img}
+        />
 
         <div className={css.header}>
           <h3 className={css.title}>{title}</h3>

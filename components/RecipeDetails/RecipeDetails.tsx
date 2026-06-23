@@ -95,7 +95,7 @@ export default function RecipeDetails({ recipe }: Props) {
         {/* Фото */}
         <div className={styles.imageWrapper}>
           <Image
-            src={recipe.thumb || '/images/placeholder.jpg'}
+            src={recipe.thumb || '/recipe-no-photo.webp'}
             alt={recipe.title}
             fill
             className={styles.image}
