@@ -319,6 +319,10 @@
   font-size: 14px;
 }
 
+.categoryError {
+  margin-top: 4px;
+}
+
 .ingredientsError {
   margin-top: 4px;
 }
@@ -383,6 +387,10 @@
   .error {
     margin-top: -26px;
   }
+
+  .categoryError {
+  margin-top: 4px;
+}
 
   .photoTitle {
     margin-bottom: 12px;
@@ -584,6 +592,8 @@
   }
 }
 
+/* CUSTOM SELECT */
+
 .selectWrapper {
   width: 100%;
 }
@@ -637,6 +647,7 @@
   .recipeSelectLabel {
     font-size: 16px !important;
   }
+  
 }
 
 @media (min-width: 1440px) {
