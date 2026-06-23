@@ -198,6 +198,7 @@
   grid-template-columns: 1fr;
   gap: 12px;
   align-items: end;
+  margin-bottom: 32px;
 }
 
 .addIngredientButton {
@@ -239,7 +240,7 @@
 }
 
 .ingredientsHead {
-  display: none;
+  display: grid;
   grid-template-columns: 1fr 1fr 24px;
   align-items: center;
   width: 100%;
@@ -390,7 +391,9 @@
   .ingredientsHead {
     display: grid;
   }
-
+  .ingredientsControls {
+    margin-bottom: 0;
+  }
   .input {
     margin-bottom: 32px;
   }
@@ -598,7 +601,6 @@
     gap: 0px;
   }
 }
-
 
 .selectWrapper {
   width: 100%;

@@ -2,7 +2,7 @@
    BASE — резина від 320px до 393px
 ══════════════════════════════════════ */
 .wrapper {
-  padding: 24px 16px 48px;
+  padding: 48px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,11 +25,9 @@
 /* Заголовок */
 .title {
   font-weight: 600;
-  font-size: 28px;
-  line-height: 1.1;
+  font-size: 40px;
   color: #000;
-  margin: 0 0 16px;
-  text-align: left;
+  text-align: center;
   width: 100%;
 }
 
@@ -40,7 +38,7 @@
   height: 276px;
   border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
   background-color: #2b2d30;
 }
 
@@ -52,14 +50,14 @@
 .infoRowMobile {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 40px;
+  gap: 24px;
+  margin-bottom: 24px;
 }
 
 .infoCard {
   background: #faf3e0;
   border-radius: 16px;
-  padding: 24px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -67,7 +65,7 @@
 
 .infoTitle {
   font-weight: 600;
-  font-size: 20px;
+  font-size: 24px;
   color: #000;
   margin: 0;
 }
@@ -77,6 +75,7 @@
   flex-direction: row;
   gap: 4px;
   align-items: baseline;
+  white-space: nowrap;
 }
 
 .infoLabel {
@@ -90,6 +89,8 @@
   font-size: 16px;
   line-height: 1.55;
   color: #000;
+  white-space: normal;
+  text-align: left;
 }
 
 /* ── Save button mobile — резина до 393px ── */
@@ -161,6 +162,12 @@
   gap: 8px;
 }
 
+.sectionPrep {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .sectionTitle {
   font-weight: 600;
   font-size: 24px;
@@ -200,8 +207,6 @@
   .imageWrapper {
     width: 361px;
     height: 276px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .saveBtn {
@@ -210,8 +215,6 @@
 
   .infoRowMobile {
     width: 361px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .textContent {
@@ -222,8 +225,8 @@
 
   .title {
     width: 361px;
-    margin: 0 auto 16px;
-    text-align: left;
+    margin-bottom: 32px;
+    text-align: center;
   }
 }
 
@@ -232,7 +235,7 @@
 ══════════════════════════════════════ */
 @media (min-width: 768px) {
   .wrapper {
-    padding: 32px 40px 64px;
+    padding: 48px 32px;
   }
 
   /* Скидаємо order — заголовок повертається вище картинки */
@@ -251,11 +254,9 @@
 
   .title {
     order: unset;
-    font-size: 36px;
-    margin-bottom: 24px;
+    font-size: 48px;
+    margin-bottom: 32px;
     width: 704px;
-    margin-left: auto;
-    margin-right: auto;
     text-align: left;
   }
 
@@ -264,8 +265,8 @@
     width: 704px;
     height: 624px;
     background-color: transparent;
-    margin-bottom: 24px;
-    border-radius: 12px;
+    margin-bottom: 32px;
+    border-radius: 8px;
   }
 
   .image {
@@ -276,8 +277,8 @@
   .infoRowMobile {
     flex-direction: row;
     align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 40px;
+    gap: 24px;
+    margin-bottom: 24px;
     width: 704px;
   }
 
@@ -294,7 +295,7 @@
   }
 
   .infoTitle {
-    font-size: 24px;
+    font-size: 32px;
   }
 
   .sectionTitle {
@@ -320,18 +321,20 @@
 
   .title {
     width: 1225px;
-    margin-left: 0;
-    margin-right: 0;
     margin-bottom: 32px;
     font-size: 48px;
     text-align: left;
+  }
+
+  .infoTitle {
+    font-size: 24px;
   }
 
   .imageWrapper {
     width: 1225px;
     height: 624px;
     background-color: #2b2d30;
-    border-radius: 12px;
+    border-radius: 8px;
     margin-bottom: 32px;
   }
 

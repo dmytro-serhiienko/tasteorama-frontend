@@ -61,7 +61,7 @@ export default function RecipeDetails({ recipe }: Props) {
       <div className={styles.infoItem}>
         <span className={styles.infoLabel}>Caloric content:</span>
         <span className={styles.infoValue}>
-          {recipe.calories ? `${recipe.calories} cals` : 'N/A'}
+          {recipe.calories ? `Approximately ${recipe.calories} kcal per serving` : 'N/A'}
         </span>
       </div>
     </div>
@@ -132,7 +132,7 @@ export default function RecipeDetails({ recipe }: Props) {
               </ul>
             </section>
 
-            <section className={styles.section}>
+            <section className={styles.sectionPrep}>
               <h2 className={styles.sectionTitle}>Preparation Steps:</h2>
               <p className={styles.text}>{recipe.instructions}</p>
             </section>

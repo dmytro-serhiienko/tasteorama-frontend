@@ -46,6 +46,28 @@
   line-height: 1;
 
   cursor: pointer;
+
+  transition:
+    background-color 0.3s,
+    border-color 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+}
+
+.button:hover,
+.button:focus {
+  background: var(--light-brown);
+  border-color: var(--light-brown);
+  color: #fff;
+}
+
+.button:active {
+  background-color: #9b6c43;
+  border-color: #fff;
+  color: #fff;
+  box-shadow:
+    0 0 0 6px #4e46b41f,
+    0 0 0 2px #fff;
 }
 
 @media screen and (min-width: 768px) {
